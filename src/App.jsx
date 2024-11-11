@@ -1,12 +1,12 @@
 import Router from "./app/Router";
 import Login from "./pages/Login";
-import { useTokenContext } from "./providers/TokenProvider";
+import { useUserContext } from "./providers/UserProvider";
 
 const App = () => {
-  const { token } = useTokenContext();
+  const { user } = useUserContext();
   return (
     <div>
-      {token ? <Router /> : <Login/>}
+      {user ? <Router /> : <Login/>}
     </div>
   )
 };

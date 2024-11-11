@@ -1,19 +1,30 @@
 import { useEffect, useState } from "react";
 import { getMensajes } from "../services/api";
+import {useUserContext} from '../providers/UserProvider';
 
-const VerMensaje = () => {
+const VerMensaje = () => {  
+  const { user } = useUserContext();
   const [mensajes, setMensajes] = useState();
-  
+
   useEffect(() => {
-    getMensajes().then(data => {
-  console.log('11111111',data)
-      setMensajes(data)
-    });
-  },[]);
+    console.log('Usuario logueado:', user);
+    if (user) {
+      getMensajes(user.id)
+      .then(data => {
+        console.log('Datos recibidos:', data);
+        setMensajes(data);
+      })
+    
+    }
+  }, [user]);
 
   return (
-    <div>
-  
+    <div> 
+        {mensajes?.map((msg) => (
+  <div key={msg.id}> 
+    <p>{msg.mensaje}</p>
+  </div>
+))}
     </div>
   );
 };

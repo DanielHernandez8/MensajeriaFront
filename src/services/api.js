@@ -1,9 +1,10 @@
 import axios from 'axios';
 const instance = axios.create({ baseURL: 'http://localhost:8080/mensajeria' });
 
-export const getMensajes = async (id) => {
-  const response = await instance.get('/' + id)
-  console.log("9999", response)
+export const getMensajes = async (remitenteId) => {
+  const response = await instance.get(`/${remitenteId}`)
+  console.log("getMessages", response)
+  return response.data;
 }
 
 
@@ -23,7 +24,7 @@ export const login = async (username, password) => {
   console.log("aaaaaaaaaaaa",response)
   if(response.data.resp === "Login exitoso"){
       setAuth(token);
-      return token;
+      return {token, id: response.data.id};
   }
   return null;
 }
