@@ -3,7 +3,7 @@ import { login } from "../services/api";
 import { useUserContext } from "../providers/UserProvider";
 
 const Login = () => {
-  const [u, setU] = useState();
+  const [u, setU] = useState({ username: "", password: "" });
   const { setUser } = useUserContext();
 
 

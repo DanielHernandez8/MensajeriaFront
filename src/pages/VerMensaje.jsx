@@ -4,7 +4,7 @@ import {useUserContext} from '../providers/UserProvider';
 
 const VerMensaje = () => {  
   const { user } = useUserContext();
-  const [mensajes, setMensajes] = useState();
+  const [mensajes, setMensajes] = useState([]);
 
   useEffect(() => {
     console.log('Usuario logueado:', user);

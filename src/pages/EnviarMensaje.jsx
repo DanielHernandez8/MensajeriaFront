@@ -1,23 +1,63 @@
-import {useEffect} from 'react';
-import {getMensajes} from '../services/api';
+import { useState, useEffect } from 'react';
+import { getUsers, sendMessage } from '../services/api';
 
 const EnviarMensaje = () => {
+  const [selectedUsers, setSelectedUsers] = useState([]); // Usuarios seleccionados
+  const [message, setMessage] = useState(''); // Mensaje a enviar
+  const [users, setUsers] = useState([]); // Lista de usuarios que vamos a obtener del backend
+
+  // UseEffect para obtener los usuarios del backend
   useEffect(() => {
-    console.log('Usuario logueado:', user);
-    if (user) {
-      getMensajes(user.id)
-      .then(data => {
-        console.log('Datos recibidos:', data);
-        setMensajes(data);
-      })
-    
-    }
-  }, [user]);
+    getUsers().then(setUsers)
+  }, []); // El array vacío asegura que solo se ejecute una vez
+
   
+  const handleCheckboxChange2 = (checked, userId) => {
+const selectedUsersAux = checked ? [...selectedUsers,userId]: selectedUsers.filter(u => u != userId);
+setSelectedUsers(selectedUsersAux);
+  }
+
+  // Función para manejar el envío del mensaje
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await sendMessage({
+      message: message, // El mensaje que se va a enviar
+      usuarios: selectedUsers, // La lista de usuarios seleccionados (IDs)
+    })
+  
+  };
+
   return (
-    <div>
-                <input type="checkbox"/>
-   </div>
+    <form onSubmit={handleSubmit}>
+      <h3>Enviar Mensaje</h3>
+      {/* Mostrar los usuarios obtenidos desde la base de datos */}
+{
+        users?.map((user) => (
+          <div key={user.id}>
+            <label>
+              {user.username}
+              <input
+                type="checkbox"
+                // checked={selectedUsers.includes(user.id)} // Marcamos los usuarios seleccionados
+                onChange={(e) => handleCheckboxChange2(e.target.checked, user.id)} // Llamamos a la función cuando se cambia
+              />
+            </label>
+          </div>
+        )) 
+}
+
+
+
+      {/* Campo de texto para escribir el mensaje */}
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Escribe tu mensaje aquí..."
+      />
+
+      <button type="submit">Enviar mensaje</button>
+    </form>
   );
 };
 
