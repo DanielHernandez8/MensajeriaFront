@@ -4,6 +4,7 @@ const instance = axios.create({ baseURL: 'http://localhost:8080/mensajeria' });
 export const login = async (username, password) => {
   console.log(1111,username, password);
   const token = btoa(username + ":" + password);
+  console.log(33333,token);
   const response = await instance.post("/login",{},
   {
       headers: {
@@ -19,6 +20,13 @@ export const login = async (username, password) => {
   }
   return null;
 }
+
+
+export const register = async (username, password) => {
+  const response = await instance.post("/register", { username, password });
+  console.log('register',response)
+  return response.data;
+};
 
 export const setAuth = async (token) => {
   instance.defaults.headers.common.Authorization = `basic ${token}`;

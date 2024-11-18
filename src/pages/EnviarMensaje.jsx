@@ -25,12 +25,14 @@ setSelectedUsers(selectedUsersAux);
       message: message, // El mensaje que se va a enviar
       usuarios: selectedUsers, // La lista de usuarios seleccionados (IDs)
     })
+    setMessage(""); 
   
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h3>Enviar Mensaje</h3>
+
       {/* Mostrar los usuarios obtenidos desde la base de datos */}
 {
         users?.map((user) => (
@@ -39,7 +41,6 @@ setSelectedUsers(selectedUsersAux);
               {user.username}
               <input
                 type="checkbox"
-                // checked={selectedUsers.includes(user.id)} // Marcamos los usuarios seleccionados
                 onChange={(e) => handleCheckboxChange2(e.target.checked, user.id)} // Llamamos a la función cuando se cambia
               />
             </label>
@@ -54,6 +55,7 @@ setSelectedUsers(selectedUsersAux);
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Escribe tu mensaje aquí..."
+
       />
 
       <button type="submit">Enviar mensaje</button>
